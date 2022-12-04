@@ -2,8 +2,7 @@
 
 <template>
   <div class="wrapper">
-    <h1>Hola</h1>
-    <p>Mundo</p>
+    <h1>App.vue</h1>
   </div>
 </template>
 
