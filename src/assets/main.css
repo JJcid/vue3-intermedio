@@ -36,7 +36,7 @@ a,
 
 .router-link-active, .router-link-exact-active {
   text-decoration: underline;
-  color: gray;
+  font-weight: bold;
 }
 .router-link-exact-active {
   text-decoration: none;
