@@ -1,4 +1,4 @@
-@import './base.css';
+@import "./base.css";
 
 #app {
   /* max-width: 1280px; */
@@ -28,16 +28,17 @@ a,
   }
 
   #app {
-    /* display: grid;
-    grid-template-columns: 1fr 1fr; */
+    /* display: grid; */
+    /* grid-template-columns: 1fr 1fr; */
     padding: 0 2rem;
   }
 }
 
-.router-link-active, .router-link-exact-active {
+.router-link-active {
+  color: grey !important;
   text-decoration: underline;
-  font-weight: bold;
 }
-.router-link-exact-active {
-  text-decoration: none;
+
+.router-link-exact-active{
+  text-decoration: none !important;
 }

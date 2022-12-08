@@ -1,36 +1,58 @@
-import breakindBadApi from "@/api/breakingBadApi";
-import type { Character } from "@/characters/interfaces/characters";
-import { onMounted, ref } from "vue";
-import axios from "axios";
+import { ref, computed } from 'vue';
+import { useQuery } from '@tanstack/vue-query';
 
-const characters = ref<Character[]>([]);
-const isLoading = ref<boolean>(true);
-const hasError = ref<boolean>(false);
-const errorMessage = ref<string>();
-const loadCharacters = async () => {
-  try {
-    if (characters.value.length) return;
-    isLoading.value = true;
-    const { data } = await breakindBadApi.get<Character[]>("/characters");
-    characters.value = data;
-    isLoading.value = false;
-  } catch (error) {
-    hasError.value = true;
-    if (axios.isAxiosError(error)) {
-      errorMessage.value = error.message;
+import type { Character } from '@/characters/interfaces/character';
+import breakingBadApi from '@/api/breakingBadApi';
+
+
+const characters   = ref<Character[]>([]);
+const hasError     = ref<boolean>(false);
+const errorMessage = ref<string | null >(null);
+
+const getCharacters = async(): Promise<Character[]> => {
+
+    if ( characters.value.length > 0 ) {
+        return characters.value;
     }
-    errorMessage.value = error as string;
-  } finally {
-    isLoading.value = false;
-  }
-};
 
-export const useCharacters = () => {
-  onMounted(loadCharacters);
-  return {
-    characters,
-    isLoading,
-    hasError,
-    errorMessage,
-  };
-};
+    const { data } = await breakingBadApi.get<Character[]>('/characters');
+    return data;
+}
+
+const loadedCharacters = ( data: Character[] ) => {
+    hasError.value     = false;
+    errorMessage.value = null;
+    characters.value   = data.filter( character => ![14,17,39].includes(character.char_id) );
+}
+
+
+
+const useCharacters = () => {
+
+    const { isLoading } = useQuery(
+        ['characters'],
+        getCharacters,
+        {
+            onSuccess:loadedCharacters,
+        }
+    );
+
+
+
+    return {
+        // Properties
+        characters,
+        errorMessage,
+        hasError,
+        isLoading,
+
+        // Getters
+        count: computed( () => characters.value.length ),
+
+        // Methods
+    }
+}
+
+
+export default useCharacters;
+

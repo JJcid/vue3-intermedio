@@ -1,7 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
-const breakindBadApi = axios.create({
-  baseURL: "https://www.breakingbadapi.com/api",
+
+const breakingBadApi = axios.create({
+    baseURL: 'https://www.breakingbadapi.com/api'
 });
 
-export default breakindBadApi;
+
+
+
+export default breakingBadApi;
